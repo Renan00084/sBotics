@@ -60,4 +60,4 @@ inicio
 			}
 		}
 	} enquanto (parar == falso)
-fi
+fim
