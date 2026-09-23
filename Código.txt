@@ -1,0 +1,63 @@
+inicio
+	AbrirConsole()
+	Escrever("mundo!")
+	EscreverLinha("ola, ")
+
+	numero velocidade = 200
+
+ 	texto SensorE = "SCE"
+	texto SensorD = "SCD"
+
+	booleano parar = falso
+
+	TravarMotor("MEF", falso)
+	TravarMotor("MET", falso)
+	TravarMotor("MDF", falso)
+	TravarMotor("MDT", falso)
+	
+	Motor("MDT", velocidade)
+	Motor("MDF", velocidade)
+	Motor("MEF", velocidade)
+	Motor("MET", velocidade)
+
+	farei {
+		se((Cor(SensorE) == "Vermelho") e (Cor(SensorD) == "Vermelho")) entao {
+			EscreverLinha("Parar")
+			TravarMotor("MDT", verdadeiro)
+			TravarMotor("MDF", verdadeiro)
+			TravarMotor("MET", verdadeiro)
+			TravarMotor("MEF", verdadeiro)
+			parar = verdadeiro
+	
+		} senao {
+			se (((Cor(SensorE) == "Preto") e (Cor(SensorD) == "Preto")) ou ((Cor(SensorE) == "Branco") e (Cor(SensorD) == "Branco"))) entao {
+				EscreverLinha("Reto")
+				Motor("MDT", velocidade)
+				Motor("MDF", velocidade)
+				Motor("MEF", velocidade)
+				Motor("MET", velocidade)
+				
+			} senao {
+				se (Cor(SensorE) == "Preto") entao {
+					EscreverLinha("Curva Esquerda")
+					Motor("MDT", velocidade)
+					Motor("MDF", velocidade)
+					Motor("MEF", 0-velocidade)
+					Motor("MET", 0-velocidade)
+					Esperar(200)
+
+				} senao {
+					se (Cor(SensorD) == "Preto") entao {
+						EscreverLinha("Curva Direita")
+							Motor("MDT", 0-velocidade)
+						Motor("MDF", 0-velocidade)
+						Motor("MEF", velocidade)
+						Motor("MET", velocidade)
+						Esperar(200)
+
+					}
+				}
+			}
+		}
+	} enquanto (parar == falso)
+fim
