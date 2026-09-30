@@ -1,22 +1,32 @@
 tarefa verdeE() {
-	numero velocidade = 200
-	EscreverLinha("Curva esquerda verde")
+	numero velocidade = 200	
 	Motor("MTD", velocidade)
 	Motor("MFD", velocidade)
-	Motor("MFE", 0-velocidade)
-	Motor("MTE", 0-velocidade)
+	Motor("MFE", velocidade)
+	Motor("MTE", velocidade)
+	Esperar(800)
+	EscreverLinha("Curva esquerda verde")
+	Motor("MTD", 0-velocidade)
+	Motor("MFD", 0-velocidade)
+	Motor("MFE", velocidade)
+	Motor("MTE", velocidade)
 	Esperar(1000)
 
 }
 
 tarefa verdeD() {
 	numero velocidade = 200
-	EscreverLinha("Curva Direita verde")
-	Motor("MTD", 0-velocidade)
-	Motor("MFD", 0-velocidade)
+	Motor("MTD", velocidade)
+	Motor("MFD", velocidade)
 	Motor("MFE", velocidade)
 	Motor("MTE", velocidade)
-	Esperar(1000)
+	Esperar(800)
+	EscreverLinha("Curva Direita verde")
+	Motor("MTD", velocidade)
+	Motor("MFD", velocidade)
+	Motor("MFE", 0-velocidade)
+	Motor("MTE", 0-velocidade)
+	Esperar(2000)
 
 }
 
@@ -30,6 +40,7 @@ tarefa beco() {
 	Esperar(4000)
 
 }
+
 
 inicio
 	AbrirConsole()
@@ -53,6 +64,8 @@ inicio
 	Motor("MFE", velocidade)
 	Motor("MTE", velocidade)
 
+	LigarLuz("led1", 255, 255, 255)
+
 	farei {
 		se((Cor(SensorE) == "Vermelho") e (Cor(SensorD) == "Vermelho")) entao {
 			EscreverLinha("Parar")
@@ -68,15 +81,14 @@ inicio
 				Escrever (Cor(SensorE))
 				EscreverLinha ("Direita")
 				Escrever (Cor(SensorD))
-				se ((Cor(SensorE) == "Preto") e (Cor(SensorD) == "Preto")) entao {
-					Esperar(800)
-				
-				}
-			
 				Motor("MTD", velocidade)
 				Motor("MFD", velocidade)
 				Motor("MFE", velocidade)
 				Motor("MTE", velocidade)
+				se ((Cor(SensorE) == "Preto") e (Cor(SensorD) == "Preto")) entao {
+					Esperar(800)
+				
+				}
 				
 			} senao {
 				se (Cor(SensorE) == "Preto") entao {
@@ -85,10 +97,10 @@ inicio
 					EscreverLinha ("Direita")
 					Escrever (Cor(SensorD))
 					EscreverLinha("Curva Esquerda")
-					Motor("MTD", velocidade)
-					Motor("MFD", velocidade)
-					Motor("MFE", 0-velocidade)
-					Motor("MTE", 0-velocidade)
+					Motor("MTD", 0-velocidade)
+					Motor("MFD", 0-velocidade)
+					Motor("MFE", velocidade)
+					Motor("MTE", velocidade)
 					Esperar(100)
 
 				} senao {
@@ -98,14 +110,14 @@ inicio
 						EscreverLinha ("Direita")
 						Escrever (Cor(SensorD))
 						EscreverLinha("Curva Direita")
-							Motor("MTD", 0-velocidade)
-						Motor("MFD", 0-velocidade)
-						Motor("MFE", velocidade)
-						Motor("MTE", velocidade)
+							Motor("MTD", velocidade)
+						Motor("MFD", velocidade)
+						Motor("MFE", 0-velocidade)
+						Motor("MTE", 0-velocidade)
 						Esperar(100)
-
+							
 					} senao {
-							se ((Cor(SensorE) == "Verde") e (Cor(SensorD) == "Verde")) entao {
+						se ((Cor(SensorE) == "Verde") e (Cor(SensorD) == "Verde")) entao {
 								EscreverLinha ("Esquerda")
 								Escrever (Cor(SensorE))
 								EscreverLinha ("Direita")
@@ -127,10 +139,10 @@ inicio
 										EscreverLinha ("Direita")
 										Escrever (Cor(SensorD))
 										verdeD()
-
 									}
+
 								}
-							}
+						}
 					}
 				}
 			}
