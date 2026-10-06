@@ -1,55 +1,48 @@
-tarefa verdeE() {
-	numero velocidade = 200	
+numero velocidade = 200
+
+tarefa verdeE() {	
 	Motor("MTD", velocidade)
 	Motor("MFD", velocidade)
 	Motor("MFE", velocidade)
 	Motor("MTE", velocidade)
-	Esperar(800)
+	Esperar(700)
 	EscreverLinha("Curva esquerda verde")
-	Motor("MTD", 0-velocidade)
-	Motor("MFD", 0-velocidade)
-	Motor("MFE", velocidade)
-	Motor("MTE", velocidade)
-	Esperar(1000)
-
-}
-
-tarefa verdeD() {
-	numero velocidade = 200
-	Motor("MTD", velocidade)
-	Motor("MFD", velocidade)
-	Motor("MFE", velocidade)
-	Motor("MTE", velocidade)
-	Esperar(800)
-	EscreverLinha("Curva Direita verde")
 	Motor("MTD", velocidade)
 	Motor("MFD", velocidade)
 	Motor("MFE", 0-velocidade)
 	Motor("MTE", 0-velocidade)
-	Esperar(2000)
+	Esperar(1500)
+}
 
+tarefa verdeD() {
+	Motor("MTD", velocidade)
+	Motor("MFD", velocidade)
+	Motor("MFE", velocidade)
+	Motor("MTE", velocidade)
+	Esperar(700)
+	EscreverLinha("Curva Direita verde")
+	Motor("MTD", 0-velocidade)
+	Motor("MFD", 0-velocidade)
+	Motor("MFE", velocidade)
+	Motor("MTE", velocidade)
+	Esperar(1500)
 }
 
 tarefa beco() {
-	numero velocidade = 200
 	EscreverLinha("Beco sem saida")
 	Motor("MTD", velocidade)
 	Motor("MFD", velocidade)
 	Motor("MFE", 0-velocidade)
 	Motor("MTE", 0-velocidade)
-	Esperar(4000)
-
+	Esperar(3500)
 }
-
 
 inicio
 	AbrirConsole()
 	Escrever("mundo!")
 	EscreverLinha("ola, ")
 
-	numero velocidade = 200
-
- 	texto SensorE = "SCIE"
+	texto SensorE = "SCIE"
 	texto SensorD = "SCID"
 
 	booleano parar = falso
@@ -64,9 +57,23 @@ inicio
 	Motor("MFE", velocidade)
 	Motor("MTE", velocidade)
 
-	LigarLuz("led1", 255, 255, 255)
+	LigarLuz("led", 255, 255, 255)
 
 	farei {
+		se ((Cor(SensorE) == "Verde") ou (Cor(SensorD) == "Verde")) entao {
+			TravarMotor("MTD", verdadeiro)
+			TravarMotor("MFD", verdadeiro)
+			TravarMotor("MTE", verdadeiro)
+			TravarMotor("MFE", verdadeiro)
+			Esperar(300)
+			TravarMotor("MFE", falso)
+			TravarMotor("MTE", falso)
+			TravarMotor("MFD", falso)
+			TravarMotor("MTD", falso)
+		
+			
+		}
+		
 		se((Cor(SensorE) == "Vermelho") e (Cor(SensorD) == "Vermelho")) entao {
 			EscreverLinha("Parar")
 			TravarMotor("MTD", verdadeiro)
@@ -74,74 +81,76 @@ inicio
 			TravarMotor("MTE", verdadeiro)
 			TravarMotor("MFE", verdadeiro)
 			parar = verdadeiro
-	
+
 		} senao {
-			se (((Cor(SensorE) == "Preto") e (Cor(SensorD) == "Preto")) ou ((Cor(SensorE) == "Branco") e (Cor(SensorD) == "Branco"))) entao {
-				EscreverLinha ("Esquerda")
-				Escrever (Cor(SensorE))
-				EscreverLinha ("Direita")
-				Escrever (Cor(SensorD))
-				Motor("MTD", velocidade)
-				Motor("MFD", velocidade)
-				Motor("MFE", velocidade)
-				Motor("MTE", velocidade)
-				se ((Cor(SensorE) == "Preto") e (Cor(SensorD) == "Preto")) entao {
-					Esperar(800)
-				
-				}
-				
+			se ((Cor(SensorE) == "Verde") e (Cor(SensorD) == "Verde")) entao {
+				EscreverLinha("Esquerda")
+				Escrever(Cor(SensorE))
+				EscreverLinha("Direita")
+				Escrever(Cor(SensorD))
+				beco()
+
 			} senao {
-				se (Cor(SensorE) == "Preto") entao {
-					EscreverLinha ("Esquerda")
-					Escrever (Cor(SensorE))
-					EscreverLinha ("Direita")
-					Escrever (Cor(SensorD))
-					EscreverLinha("Curva Esquerda")
-					Motor("MTD", 0-velocidade)
-					Motor("MFD", 0-velocidade)
-					Motor("MFE", velocidade)
-					Motor("MTE", velocidade)
-					Esperar(100)
+				se (Cor(SensorE) == "Verde") entao {
+					EscreverLinha("Esquerda")
+					Escrever(Cor(SensorE))
+					EscreverLinha("Direita")
+					Escrever(Cor(SensorD))
+					verdeE()
 
 				} senao {
-					se (Cor(SensorD) == "Preto") entao {
-						EscreverLinha ("Esquerda")
-						Escrever (Cor(SensorE))
-						EscreverLinha ("Direita")
-						Escrever (Cor(SensorD))
-						EscreverLinha("Curva Direita")
-							Motor("MTD", velocidade)
-						Motor("MFD", velocidade)
-						Motor("MFE", 0-velocidade)
-						Motor("MTE", 0-velocidade)
-						Esperar(100)
-							
+					se (Cor(SensorD) == "Verde") entao {
+						EscreverLinha("Esquerda")
+						Escrever(Cor(SensorE))
+						EscreverLinha("Direita")
+						Escrever(Cor(SensorD))
+						verdeD()
+
 					} senao {
-						se ((Cor(SensorE) == "Verde") e (Cor(SensorD) == "Verde")) entao {
-								EscreverLinha ("Esquerda")
-								Escrever (Cor(SensorE))
-								EscreverLinha ("Direita")
-								Escrever (Cor(SensorD))
-								beco()
+						se (((Cor(SensorE) == "Preto") e (Cor(SensorD) == "Preto")) ou ((Cor(SensorE) == "Branco") e (Cor(SensorD) == "Branco"))) entao {
+							EscreverLinha("Esquerda")
+							Escrever(Cor(SensorE))
+							EscreverLinha("Direita")
+							Escrever(Cor(SensorD))
+
+							Motor("MTD", velocidade)
+							Motor("MFD", velocidade)
+							Motor("MFE", velocidade)
+							Motor("MTE", velocidade)
+
+							se ((Cor(SensorE) == "Preto") e (Cor(SensorD) == "Preto")) entao {
+								Esperar(500)
+							}
 
 						} senao {
-								se (Cor(SensorE) == "Verde") entao {
-									EscreverLinha ("Esquerda")
-									Escrever (Cor(SensorE))
-									EscreverLinha ("Direita")
-									Escrever (Cor(SensorD))
-									verdeE()
+							se (Cor(SensorE) == "Preto") entao {
+								EscreverLinha("Esquerda")
+								Escrever(Cor(SensorE))
+								EscreverLinha("Direita")
+								Escrever(Cor(SensorD))
+								EscreverLinha("Curva Esquerda")
 
-								} senao {
-									se (Cor(SensorD) == "Verde") entao {
-										EscreverLinha ("Esquerda")
-										Escrever (Cor(SensorE))
-										EscreverLinha ("Direita")
-										Escrever (Cor(SensorD))
-										verdeD()
-									}
+								Motor("MTD", velocidade)
+								Motor("MFD", velocidade)
+								Motor("MFE", 0-velocidade)
+								Motor("MTE", 0-velocidade)
+								Esperar(200)
 
+							} senao {
+								se (Cor(SensorD) == "Preto") entao {
+									EscreverLinha("Esquerda")
+									Escrever(Cor(SensorE))
+									EscreverLinha("Direita")
+									Escrever(Cor(SensorD))
+									EscreverLinha("Curva Direita")
+
+									Motor("MTD", 0-velocidade)
+									Motor("MFD", 0-velocidade)
+									Motor("MFE", velocidade)
+									Motor("MTE", velocidade)
+									Esperar(200)
 								}
+							}
 						}
 					}
 				}
